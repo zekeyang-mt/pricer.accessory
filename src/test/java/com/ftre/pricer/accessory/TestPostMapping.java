@@ -45,6 +45,7 @@ public class TestPostMapping {
 		String assetType = "EQ";
 		String name = "EqSpot_ABX";
 		
+		/*
 		String jDataList = new Gson().toJson(dataList);
 		String jMatList = new Gson().toJson(matList);
 		
@@ -55,7 +56,6 @@ public class TestPostMapping {
 		paramMap.put("cutoffDate", cutoffDate);
 		paramMap.put("assetType", assetType);
 		paramMap.put("name", name);
-		
 		StringBuilder postData = new StringBuilder();
 		for(Map.Entry<String, String> param : paramMap.entrySet()) {
 			if(postData.length() != 0) postData.append('&');
@@ -79,65 +79,24 @@ public class TestPostMapping {
             sb.append((char)c);
         String response = sb.toString();
         System.out.println(response);
-        /**/
+        */
         
-		/*
+		
 		String jDataList = new Gson().toJson(dataList);
 		String jMatList = new Gson().toJson(matList);
-		String jAsofDate = new Gson().toJson(asofDate);
-		String jCutoffDate = new Gson().toJson(cutoffDate);
-		String jAssetType = new Gson().toJson(assetType);
-		String jName = new Gson().toJson(name);
-		
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("dataList", jDataList);
 		paramMap.put("matList", jMatList);
-		paramMap.put("asofDate", jAsofDate);
-		paramMap.put("cutoffDate", jCutoffDate);
-		paramMap.put("assetType", jAssetType);
-		paramMap.put("name", jName);
-		//String postData = "dataList=" + dataList.toString() + "&matList=" + matList.toString() + "&asofDate=" + asofDate + "&cutoffDate=" + cutoffDate + "&assetType=" + assetType + "&name=" + name;
-		
-		//String resultString = httpPost(url, postData);
-		String resultString = httpPost2(address, paramMap);
-		System.out.println(resultString);
-		*/
+		paramMap.put("asofDate", asofDate);
+		paramMap.put("cutoffDate", cutoffDate);
+		paramMap.put("assetType", assetType);
+		paramMap.put("name", name);
+		String resultString = httpPost(address, paramMap);
+		/**/
 		
 	}
 	
-	
-	private static String httpPost(String url, String postData) {
-		String result = "";
-		try {
-			URL u=new URL(url);
-			HttpURLConnection conn=(HttpURLConnection) u.openConnection();
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-			conn.connect();
-			BufferedWriter osw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8")); 
-			
-			osw.write(postData);
-			osw.flush();
-			osw.close();
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line = "";
-			StringBuilder sb=new StringBuilder();
-            for (line = br.readLine(); line != null; line = br.readLine()) {
-            	sb.append(line);
-            	log.info("HttpPost() : " + line);
-            }
-            conn.disconnect();
-            result=sb.toString();
-		} catch (Exception ex) {
-			processMsg = ex.getMessage();
-			System.out.println(processMsg);
-		}
-		return result;
-	}
-	
-	private static String httpPost2(String url, Map<String, String> params) {
+	private static String httpPost(String url, Map<String, String> params) {
 		String result = "";
 		BufferedReader in = null;
 		try {
